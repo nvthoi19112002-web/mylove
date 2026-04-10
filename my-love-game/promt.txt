@@ -1,0 +1,42 @@
+Bạn là một chuyên gia lập trình Game Web sử dụng Three.js và GSAP. Tôi đang xây dựng một trò chơi quà tặng người yêu theo phong cách Interactive Storytelling.
+Yêu cầu: Code phải sạch, tối ưu hiệu suất (Clean code & Performance), sử dụng ES6 Modules. Hãy tuân thủ các quy tắc trong file .github/copilot-instructions.md.
+Luôn giải thích ngắn gọn các thông số toán học trong Three.js để tôi có thể tinh chỉnh đồ họa sau này.
+
+
+2. Prompt xây dựng "Linh hồn" của game (Core Engine)
+Khi bạn bắt đầu viết file khởi tạo không gian 3D:
+
+*"Hãy viết một module SceneManager.js sử dụng Three.js để quản lý Scene, Camera và Renderer.
+
+Tạo một môi trường có nền là dải ngân hà lấp lánh (sử dụng Particle System thay vì ảnh nền tĩnh).
+
+Thêm hiệu ứng Post-processing 'UnrealBloomPass' để làm cho các vật thể phát sáng lung linh.
+
+Đảm bảo tính năng Responsive khi thay đổi kích thước trình duyệt (window resize)."*
+
+
+3. Prompt tạo "Thử thách" (Game Logic)
+Khi bạn muốn tạo một màn chơi cụ thể (Ví dụ: Màn chơi hứng trái tim):
+
+*"Dựa trên Scene hiện tại, hãy tạo một class HeartCollector.
+
+Tạo ra các trái tim 3D (Mesh) rơi ngẫu nhiên từ trên xuống.
+
+Sử dụng Raycaster để phát hiện khi người dùng click vào trái tim.
+
+Khi click đúng, sử dụng GSAP để làm trái tim nổ tung thành các hạt nhỏ và cộng 10 điểm vào biến score.
+
+Nếu đạt 100 điểm, hãy gọi hàm levelComplete()."*
+
+
+
+
+4. Prompt "Đồng bộ hóa" (Cập nhật README & Context)
+Đây là câu lệnh để thực hiện mục tiêu tự update mà bạn muốn:
+
+"Tôi vừa hoàn thành logic va chạm và hiệu ứng hạt cho Màn 1. Hãy tóm tắt các thay đổi này và cập nhật vào mục ## Development Progress trong file README.md. Đừng quên lưu lại các biến số quan trọng như SPEED_FACTOR và GRAVITY để phiên làm việc sau chúng ta có thể tiếp tục đúng tiến độ."
+
+5. Prompt Tinh chỉnh đồ họa (Dành cho dân IT kỹ tính)
+Khi bạn thấy game chạy được rồi nhưng chưa "đẹp":
+
+"Hãy tối ưu lại Shaders cho vật thể trung tâm. Tôi muốn nó có hiệu ứng 'Iridescent' (ánh kim màng mỏng) giống như bong bóng xà phòng hoặc pha lê lấp lánh dưới ánh đèn PointLight. Hãy cung cấp mã nguồn GLSL và cách tích hợp vào Three.js Mesh."
