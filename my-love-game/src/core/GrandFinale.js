@@ -3,6 +3,7 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import helvetikerFont from 'three/examples/fonts/helvetiker_regular.typeface.json'
 import { gsap } from 'gsap'
+import { createStarTexture } from '../utils/threeUtils.js'
 
 export const FIREWORK_DENSITY = 160
 export const EXPLOSION_POWER = 3.5
@@ -86,10 +87,12 @@ export class GrandFinale {
 
     particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
     const particleMaterial = new THREE.PointsMaterial({
-      size: 0.12,
-      color: 0xffe2ea,
+      size: 0.08,
+      map: createStarTexture(128, '#ffe8f5'),
+      color: 0xffd7e9,
       transparent: true,
-      opacity: 0.72,
+      opacity: 0.68,
+      alphaTest: 0.12,
       sizeAttenuation: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,

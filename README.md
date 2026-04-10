@@ -30,6 +30,7 @@
 - Added Level 2 `Memory Gallery` support with reflective floor, photo wall frames, and narrative camera path.
 - Added `MemoryFrame` interactions: hover glow, lookAt behavior, click-to-expand story detail.
 - Added Level 3 `Infinite Flight` with a shader tunnel, beat-synced rings, and bass-reactive neon motion.
+- Softened Level 3 particles to star-shaped sprites and reduced particle size for a gentler look.
 - Added spatial audio support for gallery memories, including position-based volume and fallback tone generation.
 - Added the Grand Finale flow with particle text, fireworks, and an interactive gift button / QR card reveal.
 - Added a digital gift card modal with animated snow/petal overlay for the final surprise.

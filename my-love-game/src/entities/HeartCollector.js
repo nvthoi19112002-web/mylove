@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { gsap } from 'gsap'
-import { getRandomFloat, toNormalizedDeviceCoordinates } from '../utils/threeUtils.js'
+import { getRandomFloat, toNormalizedDeviceCoordinates, createStarTexture } from '../utils/threeUtils.js'
 
 export const SPEED_FACTOR = 0.12 // base fall velocity for hearts; increase to make hearts drop faster
 export const GRAVITY = 0.05 // acceleration downward over time, similar to gravity strength
@@ -130,10 +130,12 @@ export class HeartCollector {
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
 
     const material = new THREE.PointsMaterial({
-      size: 0.12,
-      color: 0xffd6df,
+      size: 0.08,
+      map: createStarTexture(128, '#ffd7e8'),
+      color: 0xffbfd7,
       transparent: true,
       opacity: 0.72,
+      alphaTest: 0.12,
       sizeAttenuation: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,

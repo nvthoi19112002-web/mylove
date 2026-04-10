@@ -70,15 +70,14 @@ export class Level3Manager {
         uniform float speed;
 
         void main() {
-          float pulse = smoothstep(0.2, 0.8, sin(time * 3.0 + vUv.y * 8.0) * 0.5 + 0.5);
           float line = abs(fract(vUv.y * 16.0 + time * speed) - 0.5);
-          float glow = smoothstep(0.035, 0.0, line);
-          vec3 base = mix(vec3(0.04, 0.07, 0.22), vec3(0.92, 0.34, 0.96), bass * 0.8);
-          vec3 streak = vec3(0.54, 0.92, 1.0) * glow * (0.38 + bass * 0.9);
+          float glow = smoothstep(0.02, 0.0, line);
+          vec3 base = mix(vec3(0.08, 0.12, 0.24), vec3(0.65, 0.45, 0.78), bass * 0.6);
+          vec3 streak = vec3(0.42, 0.78, 0.92) * glow * (0.24 + bass * 0.55);
           vec3 color = base + streak;
-          color *= 0.8 + bass * 0.35;
-          float alpha = 0.18 + glow * 0.55;
-          gl_FragColor = vec4(color, alpha);
+          color *= 0.55 + bass * 0.18;
+          float alpha = 0.12 + glow * 0.28;
+          gl_FragColor = vec4(color, clamp(alpha, 0.08, 0.6));
         }
       `,
     })
@@ -95,9 +94,9 @@ export class Level3Manager {
       const tangent = this.curve.getTangentAt(t)
       const ringGeometry = new THREE.RingGeometry(1.0, 1.35, 48)
       const ringMaterial = new THREE.MeshBasicMaterial({
-        color: new THREE.Color(0.7, 0.95, 1.0),
+        color: new THREE.Color(0.52, 0.74, 0.88),
         transparent: true,
-        opacity: 0.42,
+        opacity: 0.28,
         side: THREE.DoubleSide,
       })
       const ring = new THREE.Mesh(ringGeometry, ringMaterial)
@@ -207,8 +206,8 @@ export class Level3Manager {
       const passThrough = difference < 0.02 || difference > 0.98
       if (passThrough && !ring.userData.collected) {
         ring.userData.collected = true
-        ring.material.color.setRGB(1.0, 0.9, 0.6)
-        gsap.to(ring.scale, { x: 1.8, y: 1.8, z: 1.8, duration: 0.35, ease: 'power2.out' })
+        ring.material.color.setRGB(0.74, 0.82, 0.94)
+        gsap.to(ring.scale, { x: 1.4, y: 1.4, z: 1.4, duration: 0.35, ease: 'power2.out' })
         gsap.to(ring.material, { opacity: 0, duration: 0.9, ease: 'power2.in' })
         playSoftClick()
         this.uiManager.flashScreen()
