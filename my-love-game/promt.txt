@@ -3,40 +3,37 @@ Yêu cầu: Code phải sạch, tối ưu hiệu suất (Clean code & Performanc
 Luôn giải thích ngắn gọn các thông số toán học trong Three.js để tôi có thể tinh chỉnh đồ họa sau này.
 
 
-2. Prompt xây dựng "Linh hồn" của game (Core Engine)
-Khi bạn bắt đầu viết file khởi tạo không gian 3D:
+Prompt 1: Tạo vật thể trung tâm lấp lánh (Iridescent Core)
+Đây là lúc bạn dùng sức mạnh của Shader để làm người yêu "wow" vì đồ họa đẹp.
 
-*"Hãy viết một module SceneManager.js sử dụng Three.js để quản lý Scene, Camera và Renderer.
+*"Dựa trên context hiện tại, hãy tạo một class mới src/entities/CrystalHeart.js.
 
-Tạo một môi trường có nền là dải ngân hà lấp lánh (sử dụng Particle System thay vì ảnh nền tĩnh).
+Đối tượng này là một khối trái tim 3D đặt tại tâm (0, 0, 0).
 
-Thêm hiệu ứng Post-processing 'UnrealBloomPass' để làm cho các vật thể phát sáng lung linh.
+Yêu cầu quan trọng: Viết một Custom Shader (GLSL) để tạo hiệu ứng 'Iridescent' (ánh cực quang/ánh xà phòng) thay đổi màu sắc theo góc nhìn của Camera.
 
-Đảm bảo tính năng Responsive khi thay đổi kích thước trình duyệt (window resize)."*
+Sử dụng GSAP để tạo hiệu ứng 'lơ lửng' (levitation) và xoay nhẹ nhàng cho trái tim này.
 
+Tích hợp nó vào SceneManager.js để hiện thị xuyên suốt Màn 1."*
 
-3. Prompt tạo "Thử thách" (Game Logic)
-Khi bạn muốn tạo một màn chơi cụ thể (Ví dụ: Màn chơi hứng trái tim):
+Prompt 2: Xây dựng UI kể chuyện (Story-driven UI)
+Game cuốn hay không nằm ở cách dẫn dắt. Đừng dùng alert() hay text thô cứng.
 
-*"Dựa trên Scene hiện tại, hãy tạo một class HeartCollector.
+*"Hãy tạo một module src/core/UIManager.js để quản lý các lớp giao diện (DOM Overlay) phía trên Canvas.
 
-Tạo ra các trái tim 3D (Mesh) rơi ngẫu nhiên từ trên xuống.
+Thiết kế một màn hình 'Start' mờ ảo với nút 'Bắt đầu hành trình' sử dụng CSS Glassmorphism.
 
-Sử dụng Raycaster để phát hiện khi người dùng click vào trái tim.
+Khi người chơi thu thập trái tim, hiển thị các dòng tin nhắn ngắn (caption) bay lên và mờ dần (ví dụ: 'Ngày đầu mình gặp nhau...', 'Nụ cười của em...').
 
-Khi click đúng, sử dụng GSAP để làm trái tim nổ tung thành các hạt nhỏ và cộng 10 điểm vào biến score.
+Khi levelComplete() được gọi, thực hiện hiệu ứng chuyển cảnh mượt mà bằng cách làm mờ màn hình (Fade out) và hiện ra lời nhắn bí mật của Màn 2."*
 
-Nếu đạt 100 điểm, hãy gọi hàm levelComplete()."*
+Prompt 3: Tối ưu và Lưu context (Dành cho Copilot)
+Sau khi nó code xong, hãy dùng lệnh này để "khóa" context vào README:
 
+*"Tôi vừa thêm class CrystalHeart và UIManager. Hãy cập nhật file README.md:
 
+Thêm mô tả về Shader 'Iridescent' vào mục Technical Context.
 
+Cập nhật Next Focus: Xây dựng Màn 2 với bối cảnh 'Memory Gallery' (Phòng triển lãm ảnh kỷ niệm).
 
-4. Prompt "Đồng bộ hóa" (Cập nhật README & Context)
-Đây là câu lệnh để thực hiện mục tiêu tự update mà bạn muốn:
-
-"Tôi vừa hoàn thành logic va chạm và hiệu ứng hạt cho Màn 1. Hãy tóm tắt các thay đổi này và cập nhật vào mục ## Development Progress trong file README.md. Đừng quên lưu lại các biến số quan trọng như SPEED_FACTOR và GRAVITY để phiên làm việc sau chúng ta có thể tiếp tục đúng tiến độ."
-
-5. Prompt Tinh chỉnh đồ họa (Dành cho dân IT kỹ tính)
-Khi bạn thấy game chạy được rồi nhưng chưa "đẹp":
-
-"Hãy tối ưu lại Shaders cho vật thể trung tâm. Tôi muốn nó có hiệu ứng 'Iridescent' (ánh kim màng mỏng) giống như bong bóng xà phòng hoặc pha lê lấp lánh dưới ánh đèn PointLight. Hãy cung cấp mã nguồn GLSL và cách tích hợp vào Three.js Mesh."
+Lưu lại các thông số Shader như iridescenceIntensity vào mục 'Notes for tuning' để tôi dễ dàng chỉnh độ lấp lánh sau này."*

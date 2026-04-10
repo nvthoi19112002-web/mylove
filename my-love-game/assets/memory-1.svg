@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff9acd"/>
+      <stop offset="100%" stop-color="#ff6fb5"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" rx="28" fill="#120215"/>
+  <rect x="24" y="24" width="552" height="352" rx="20" fill="url(#g1)" opacity="0.15"/>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#f8edf8" font-family="Segoe UI, sans-serif" font-size="48">Kỷ niệm</text>
+  <text x="50%" y="62%" dominant-baseline="middle" text-anchor="middle" fill="#ffd8ee" font-family="Segoe UI, sans-serif" font-size="22">Buổi đầu hẹn hò</text>
+</svg>

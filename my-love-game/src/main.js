@@ -1,60 +1,96 @@
-import './style.css'
-import javascriptLogo from './assets/javascript.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import { setupCounter } from './counter.js'
+﻿import './style.css'
+import * as THREE from 'three'
+import { gsap } from 'gsap'
+import { SceneManager } from './core/SceneManager.js'
+import { UIManager } from './core/UIManager.js'
+import { Level2Manager } from './core/Level2Manager.js'
+import { Level3Manager } from './core/Level3Manager.js'
+import { GrandFinale } from './core/GrandFinale.js'
+import { HeartCollector } from './entities/HeartCollector.js'
+import { CrystalHeart } from './entities/CrystalHeart.js'
 
-document.querySelector('#app').innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${javascriptLogo}" class="framework" alt="JavaScript logo"/>
-    <img src=${viteLogo} class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Get started</h1>
-    <p>Edit <code>src/main.js</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
-
-<div class="ticks"></div>
-
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src=${viteLogo} alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-          <img class="button-icon" src="${javascriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
-
-<div class="ticks"></div>
-<section id="spacer"></section>
+const container = document.querySelector('#app')
+container.innerHTML = `
+  <div id="scoreboard">Score: 0</div>
+  <div id="game-message">Bắt đầu hành trình bằng cách chạm vào trái tim.</div>
 `
 
-setupCounter(document.querySelector('#counter'))
+const sceneManager = new SceneManager(container)
+const uiManager = new UIManager(container)
+const scoreElement = document.querySelector('#scoreboard')
+const messageElement = document.querySelector('#game-message')
+
+const crystalHeart = new CrystalHeart(sceneManager.scene, sceneManager.camera)
+sceneManager.registerEntity(crystalHeart)
+
+const level2Manager = new Level2Manager(sceneManager.scene, sceneManager.camera, sceneManager.domElement, uiManager, sceneManager.audioListener)
+sceneManager.registerEntity(level2Manager)
+
+const level3Manager = new Level3Manager(sceneManager.scene, sceneManager.camera, sceneManager.domElement, uiManager, sceneManager.audioListener)
+sceneManager.registerEntity(level3Manager)
+
+const grandFinale = new GrandFinale(sceneManager.scene, sceneManager.camera, uiManager)
+sceneManager.registerEntity(grandFinale)
+
+uiManager.onSkip(() => {
+  sceneManager.skipGalleryTour()
+  uiManager.hideSkipButton()
+})
+
+const storyCaptions = [
+  'Ngày đầu mình gặp nhau...',
+  'Nụ cười em như ánh bình minh...',
+  'Mỗi trái tim rơi là một kỷ niệm...',
+  'Từng khoảnh khắc bên nhau càng lung linh...',
+]
+
+let collector = null
+
+function startGame() {
+  collector = new HeartCollector(sceneManager.scene, sceneManager.camera, sceneManager.domElement, {
+    onScoreChange: (score) => {
+      scoreElement.textContent = `Score: ${score}`
+      const caption = storyCaptions[(score / 10 - 1) % storyCaptions.length]
+      if (caption) {
+        uiManager.showCaption(caption)
+      }
+    },
+    levelComplete: () => {
+      messageElement.textContent = 'Level Complete! Hành trình tiếp theo đang chờ.'
+      uiManager.showLevelComplete()
+      const completedCollector = collector
+      collector = null
+      level2Manager.startTransition(completedCollector, () => {
+        sceneManager.startGalleryTour(level2Manager.memoryFrames, uiManager, () => {
+          sceneManager.transitionToLevel3(level2Manager, crystalHeart, uiManager, () => {
+            level3Manager.startFlight(() => {
+              grandFinale.triggerFinale(level2Manager.memoryFrames)
+            })
+          })
+        })
+      })
+    },
+  })
+
+  messageElement.textContent = 'Thu thập trái tim để mở ra những kỷ niệm.'
+}
+
+uiManager.onStart(() => {
+  sceneManager.resumeAudio()
+  startGame()
+})
+
+const clock = new THREE.Clock()
+
+function animate() {
+  const delta = clock.getDelta()
+  sceneManager.update(delta)
+
+  if (collector) {
+    collector.update(delta)
+  }
+
+  requestAnimationFrame(animate)
+}
+
+animate()
